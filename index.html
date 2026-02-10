@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>С днём святого Валентина! ❤️</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0a0a0a, #1a0a1a);
+            min-height: 100vh;
+            overflow: hidden;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .container {
+            position: relative;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .counter {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(0, 0, 0, 0.8);
+            padding: 15px 30px;
+            border-radius: 50px;
+            box-shadow: 0 5px 15px rgba(255, 20, 147, 0.5);
+            font-size: 2rem;
+            font-weight: bold;
+            color: #ff1493;
+            z-index: 100;
+            border: 3px solid #ff1493;
+        }
+
+        .counter span {
+            color: #fff;
+            margin-right: 5px;
+        }
+
+        .message-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80%;
+            max-width: 800px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            z-index: 50;
+        }
+
+        .valentine-message {
+            font-size: 2.8rem;
+            color: #ff1493;
+            background-color: rgba(0, 0, 0, 0.85);
+            padding: 30px 50px;
+            border-radius: 25px;
+            border: 3px solid #ff1493;
+            box-shadow: 0 0 30px rgba(255, 20, 147, 0.7);
+            text-align: center;
+            animation: pulse 2s infinite;
+            line-height: 1.5;
+            backdrop-filter: blur(5px);
+        }
+
+        .valentine-heart {
+            font-size: 4rem;
+            color: #ff1493;
+            text-shadow: 0 0 20px rgba(255, 20, 147, 0.8);
+            margin-top: 10px;
+            display: block;
+            animation: heartbeat 1.5s infinite;
+            transform-origin: center;
+        }
+
+        .message {
+            font-size: 2.5rem;
+            color: #ff1493;
+            text-shadow: 0 0 10px rgba(255, 20, 147, 0.5);
+            background-color: rgba(0, 0, 0, 0.8);
+            padding: 20px 40px;
+            border-radius: 20px;
+            box-shadow: 0 0 25px rgba(255, 20, 147, 0.6);
+            border: 2px solid #ff1493;
+            opacity: 0;
+            transform: scale(0.8);
+            transition: opacity 0.5s, transform 0.5s;
+            max-width: 90%;
+            margin-top: 20px;
+            line-height: 1.4;
+            backdrop-filter: blur(5px);
+        }
+
+        .message.show {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .heart-container {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        /* Реалистичные сердца с SVG */
+        .floating-heart {
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            opacity: 0.7;
+            animation: floatHeart 25s infinite linear;
+            filter: drop-shadow(0 0 10px rgba(255, 20, 147, 0.6));
+        }
+
+        .floating-heart svg {
+            width: 100%;
+            height: 100%;
+            fill: #ff1493;
+        }
+
+        @keyframes floatHeart {
+            0% {
+                transform: translateY(0) translateX(0) rotate(0deg);
+                opacity: 0.6;
+            }
+            25% {
+                opacity: 0.8;
+                filter: drop-shadow(0 0 15px rgba(255, 20, 147, 0.8));
+            }
+            50% {
+                opacity: 1;
+                filter: drop-shadow(0 0 20px rgba(255, 20, 147, 0.9));
+            }
+            75% {
+                opacity: 0.8;
+                filter: drop-shadow(0 0 15px rgba(255, 20, 147, 0.8));
+            }
+            100% {
+                transform: translateY(-1500px) translateX(200px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                box-shadow: 0 0 30px rgba(255, 20, 147, 0.7);
+            }
+            50% {
+                transform: scale(1.05);
+                box-shadow: 0 0 40px rgba(255, 20, 147, 0.8);
+            }
+            100% {
+                transform: scale(1);
+                box-shadow: 0 0 30px rgba(255, 20, 147, 0.7);
+            }
+        }
+
+        @keyframes heartbeat {
+            0% {
+                transform: scale(1);
+            }
+            5% {
+                transform: scale(1.2);
+            }
+            10% {
+                transform: scale(1);
+            }
+            15% {
+                transform: scale(1.3);
+            }
+            20%, 100% {
+                transform: scale(1);
+            }
+        }
+
+        .final-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.95);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            flex-direction: column;
+        }
+
+        .final-animation.show {
+            display: flex;
+        }
+
+        .final-letters-container {
+            position: relative;
+            width: 600px;
+            height: 300px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 100px;
+        }
+
+        .final-letters {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 80px;
+            z-index: 2;
+        }
+
+        .letter {
+            font-family: 'Brush Script MT', cursive;
+            font-size: 8rem;
+            color: #ff1493;
+            stroke: #ff1493;
+            stroke-width: 2;
+            fill: transparent;
+            stroke-dasharray: 1000;
+            stroke-dashoffset: 1000;
+            animation: drawLetter 3s forwards;
+            filter: drop-shadow(0 0 15px rgba(255, 20, 147, 0.8));
+        }
+
+        .letter-b {
+            animation-delay: 0.5s;
+        }
+
+        .letter-d {
+            animation-delay: 2s;
+        }
+
+        .final-heart-container {
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            z-index: 1;
+        }
+
+        .final-heart {
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+
+        .heart-path {
+            stroke: #ff1493;
+            stroke-width: 3;
+            stroke-dasharray: 1500;
+            stroke-dashoffset: 1500;
+            fill: transparent;
+            animation: drawHeart 4s 3.5s forwards;
+            filter: drop-shadow(0 0 10px rgba(255, 20, 147, 0.8));
+            transform-origin: center;
+        }
+
+        .love-text {
+            font-family: 'Great Vibes', cursive;
+            font-size: 4.5rem;
+            color: #ff1493;
+            margin-top: 50px;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1.5s 7.5s forwards;
+            text-shadow: 0 0 20px rgba(255, 20, 147, 0.8);
+            text-align: center;
+            background: linear-gradient(45deg, #ff1493, #ff69b4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            padding: 10px 30px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 20, 147, 0.3);
+        }
+
+        @keyframes drawLetter {
+            to {
+                stroke-dashoffset: 0;
+                fill: #ff1493;
+            }
+        }
+
+        @keyframes drawHeart {
+            to {
+                stroke-dashoffset: 0;
+                fill: rgba(255, 20, 147, 0.1);
+            }
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .instructions {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(0, 0, 0, 0.8);
+            padding: 10px 20px;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 1.2rem;
+            color: #ff69b4;
+            max-width: 90%;
+            z-index: 100;
+            border: 1px solid #ff1493;
+            box-shadow: 0 0 15px rgba(255, 20, 147, 0.5);
+        }
+
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+
+        .star {
+            position: absolute;
+            background-color: white;
+            border-radius: 50%;
+            animation: twinkle 5s infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% {
+                opacity: 0.3;
+            }
+            50% {
+                opacity: 1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .message {
+                font-size: 1.8rem;
+                padding: 15px 25px;
+            }
+            
+            .valentine-message {
+                font-size: 2rem;
+                padding: 20px 30px;
+            }
+            
+            .valentine-heart {
+                font-size: 3rem;
+            }
+            
+            .counter {
+                font-size: 1.5rem;
+                padding: 10px 20px;
+            }
+            
+            .letter {
+                font-size: 5rem;
+            }
+            
+            .final-letters {
+                gap: 40px;
+            }
+            
+            .final-letters-container {
+                width: 400px;
+                height: 200px;
+                margin-bottom: 70px;
+            }
+            
+            .final-heart-container {
+                width: 400px;
+                height: 400px;
+            }
+            
+            .floating-heart {
+                width: 40px;
+                height: 40px;
+            }
+            
+            .love-text {
+                font-size: 3rem;
+                margin-top: 30px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .valentine-message {
+                font-size: 1.6rem;
+                padding: 15px 20px;
+            }
+            
+            .valentine-heart {
+                font-size: 2.5rem;
+            }
+            
+            .message {
+                font-size: 1.5rem;
+                padding: 12px 20px;
+            }
+            
+            .letter {
+                font-size: 3.5rem;
+            }
+            
+            .final-letters {
+                gap: 20px;
+            }
+            
+            .final-letters-container {
+                width: 300px;
+                height: 150px;
+                margin-bottom: 50px;
+            }
+            
+            .final-heart-container {
+                width: 300px;
+                height: 300px;
+            }
+            
+            .love-text {
+                font-size: 2.2rem;
+                margin-top: 20px;
+            }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Звездный фон -->
+    <div class="stars" id="stars"></div>
+    
+    <div class="container">
+        <div class="counter">
+            <span>Нажатий:</span> <span id="click-count">0</span>/100
+        </div>
+        
+        <div class="message-container">
+            <div class="valentine-message" id="valentine-message">
+                С днём святого Валентина, Дашуль<br>
+                Спасибо тебе за то, что
+                <span class="valentine-heart">❤️</span>
+            </div>
+            <div class="message" id="message"></div>
+        </div>
+        
+        <div class="heart-container" id="heart-container"></div>
+        
+        <div class="final-animation" id="final-animation">
+            <div class="final-letters-container">
+                <div class="final-heart-container">
+                    <div class="final-heart">
+                        <svg width="600" height="600" viewBox="0 0 600 600">
+                            <path class="heart-path" d="M300,150 C400,50 500,100 300,300 C100,100 200,50 300,150 Z" />
+                        </svg>
+                    </div>
+                </div>
+                <div class="final-letters">
+                    <svg width="200" height="200" viewBox="0 0 200 200">
+                        <text x="50%" y="50%" text-anchor="middle" dy=".3em" class="letter letter-b">B</text>
+                    </svg>
+                    
+                    <svg width="200" height="200" viewBox="0 0 200 200">
+                        <text x="50%" y="50%" text-anchor="middle" dy=".3em" class="letter letter-d">D</text>
+                    </svg>
+                </div>
+            </div>
+            <div class="love-text" id="love-text">Я тебя люблю!</div>
+        </div>
+        
+        <div class="instructions" id="instructions">
+            Кликни, чтобы начать. После 100 нажатий увидишь сюрприз!
+        </div>
+    </div>
+
+    <script>
+        // Список сообщений
+        const messages = [
+            "Ты самая лучшая!",
+            "Ты самая красивая!",
+            "Ты умница!",
+            "Ты невероятная!",
+            "Ты вдохновляешь!",
+            "Ты лучик света!",
+            "Ты прекрасна!",
+            "Ты моё счастье!",
+            "Ты обаятельная!",
+            "Ты заботливая!",
+            "Ты самая добрая!",
+            "Ты неотразима!",
+            "Ты восхитительна!",
+            "Ты уникальна!",
+            "Ты прекрасна душой!",
+            "Ты мой ангел!",
+            "Ты сияешь как солнце!",
+            "Ты моя мечта!",
+            "Ты самая милая!",
+            "Ты самая нежная!",
+            "Ты моя радость!",
+            "Ты волшебная!",
+            "Ты просто чудо!",
+            "Ты понимающая!",
+            "Ты моя поддержка!",
+            "Ты самая заботливая!",
+            "Ты прекрасней всей природы!",
+            "Ты мой источник вдохновения!",
+            "Ты самая терпеливая!",
+            "Ты самая ласковая!",
+            "Ты топчик!",
+            "Ты самая стильная!",
+            "Ты самая мудрая!",
+            "Ты моя гордость!",
+            "Ты самая душевная!",
+            "Ты самая искренняя!",
+            "Ты моя опора!",
+            "Ты номер 1!",
+            "Ты моя муза!",
+            "Ты самая женственная!",
+            "Ты самая грациозная!",
+            "С тобой лучше всего!",
+            "Ты самая улыбака!",
+            "Ты моё вдохновение!",
+            "Ты самая романтичная!",
+            "Ты самая элегантная!",
+            "Ты моя вселенная!",
+            "Ты самая страстная!",
+            "Ты моя принцесса!",
+            "Ты загадочная (это хорошо)!",
+            "Ты моё сокровище!",
+            "Ты самая находчивая!",
+            "Ты моя звездочка!",
+            "Ты самая обаятельная!",
+            "Ты моя удача!",
+            "Ты смелая!",
+            "Ты моя нежность!",
+            "Ты самая яркая!",
+            "Ты моё чудо!",
+            "Ты все сможешь!",
+            "Ты моя отрада!",
+            "Ты самая талантливая!",
+            "Ты моя фея!",
+            "Ты самая искрометная!",
+            "Ты моя радуга!",
+            "Ты самая позитивная!",
+            "Ты моя мечтательница!",
+            "Ты самая харизматичная!",
+            "Ты моя волшебница!",
+            "Ты самая любимая!",
+            "Ты моя королева!",
+            "Ты самая желанная!",
+            "Ты моё счастье!",
+            "Ты самая долгожданная!",
+            "Ты моя неожиданность!",
+            "Ты самая очаровательная!",
+            "Ты моя загадка!",
+            "Ты самая мечтательная!",
+            "Ты моя фантазия!",
+            "Ты самая непредсказуемая!",
+            "Ты моя реальность!",
+            "Ты самая восхитительная!",
+            "Ты моя жизнь!",
+            "Ты самая дорогая!",
+            "Ты моя судьба!",
+            "Ты самая важная!",
+            "Ты моя вечность!",
+            "Ты самая особенная!",
+            "Ты моя любовь!",
+            "Ты самая желанная!",
+            "Ты моя мечта!",
+            "Ты самая необыкновенная!",
+            "Ты моя отрада!",
+            "Ты самая прекрасная!",
+            "Ты моё всё!",
+            "Ты самая лучшая на свете!",
+            "Ты моя единственная!",
+            "Ты топ 1 в бравле!",
+            "Ты моя супергероиня!",
+            "Ты самая волшебная!",
+            "Ты моя принцесса!",
+            "Ты самая сказочная!",
+            "Ты моя королева!",
+            "Ты делаешь меня счастливее!",
+            "Ты моё вдохновение каждый день!",
+            "Осталось совсем немного!"
+        ];
+
+        // Переменные
+        let clickCount = 0;
+        let isFirstClick = true;
+        let isMessageShowing = false;
+        const valentineMessage = document.getElementById('valentine-message');
+        const messageElement = document.getElementById('message');
+        const clickCountElement = document.getElementById('click-count');
+        const heartContainer = document.getElementById('heart-container');
+        const finalAnimation = document.getElementById('final-animation');
+        const starsContainer = document.getElementById('stars');
+        const instructions = document.getElementById('instructions');
+        const loveText = document.getElementById('love-text');
+        let usedMessages = [];
+
+        // Создаем звезды на фоне
+        function createStars() {
+            const starCount = 200;
+            
+            for (let i = 0; i < starCount; i++) {
+                const star = document.createElement('div');
+                star.classList.add('star');
+                
+                const size = Math.random() * 3;
+                star.style.width = `${size}px`;
+                star.style.height = `${size}px`;
+                
+                star.style.left = `${Math.random() * 100}vw`;
+                star.style.top = `${Math.random() * 100}vh`;
+                
+                const opacity = Math.random() * 0.7 + 0.3;
+                star.style.opacity = opacity;
+                
+                const duration = Math.random() * 5 + 3;
+                star.style.animationDuration = `${duration}s`;
+                
+                const delay = Math.random() * 5;
+                star.style.animationDelay = `${delay}s`;
+                
+                starsContainer.appendChild(star);
+            }
+        }
+
+        // Создаем плавающие сердца на заднем фоне (реалистичные SVG)
+        function createFloatingHearts() {
+            const heartCount = 50;
+            
+            const heartSVG = `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <path d="M50,30 C60,10 80,15 50,50 C20,15 40,10 50,30 Z" 
+                      fill="#ff1493"/>
+            </svg>`;
+            
+            for (let i = 0; i < heartCount; i++) {
+                const heartDiv = document.createElement('div');
+                heartDiv.classList.add('floating-heart');
+                heartDiv.innerHTML = heartSVG;
+                
+                // Случайный размер
+                const size = Math.random() * 70 + 40;
+                heartDiv.style.width = `${size}px`;
+                heartDiv.style.height = `${size}px`;
+                
+                // Случайная позиция
+                heartDiv.style.left = `${Math.random() * 100}vw`;
+                heartDiv.style.top = `${Math.random() * 100}vh`;
+                
+                // Разные оттенки розового
+                const hue = Math.floor(Math.random() * 20) + 320;
+                const saturation = Math.floor(Math.random() * 30) + 70;
+                const lightness = Math.floor(Math.random() * 20) + 60;
+                heartDiv.querySelector('path').setAttribute('fill', `hsl(${hue}, ${saturation}%, ${lightness}%)`);
+                
+                // Случайная анимация
+                const duration = Math.random() * 30 + 20;
+                heartDiv.style.animationDuration = `${duration}s`;
+                
+                // Случайная задержка начала анимации
+                const delay = Math.random() * 10;
+                heartDiv.style.animationDelay = `${delay}s`;
+                
+                heartContainer.appendChild(heartDiv);
+            }
+        }
+
+        // Получить случайное сообщение
+        function getRandomMessage() {
+            // Если все сообщения использованы, начинаем сначала
+            if (usedMessages.length >= messages.length) {
+                usedMessages = [];
+            }
+            
+            // Выбираем случайное сообщение, которое еще не использовалось
+            let randomIndex;
+            do {
+                randomIndex = Math.floor(Math.random() * messages.length);
+            } while (usedMessages.includes(randomIndex));
+            
+            usedMessages.push(randomIndex);
+            return messages[randomIndex];
+        }
+
+        // Показать новое сообщение
+        function showMessage() {
+            if (isMessageShowing) return;
+            
+            isMessageShowing = true;
+            
+            // Скрываем текущее сообщение
+            messageElement.classList.remove('show');
+            
+            // Через короткую задержку показываем новое
+            setTimeout(() => {
+                messageElement.textContent = getRandomMessage();
+                messageElement.classList.add('show');
+                
+                // Добавляем маленькое сердечко при каждом клике
+                createClickHeart();
+                
+                // Сбрасываем флаг через время, чтобы сообщение можно было сменить
+                setTimeout(() => {
+                    isMessageShowing = false;
+                }, 500);
+            }, 300);
+        }
+
+        // Скрыть праздничное сообщение
+        function hideValentineMessage() {
+            valentineMessage.style.opacity = '0';
+            valentineMessage.style.transform = 'scale(0.8)';
+            valentineMessage.style.transition = 'opacity 0.5s, transform 0.5s';
+            
+            setTimeout(() => {
+                valentineMessage.style.display = 'none';
+                // Показываем первое сообщение после скрытия праздничного
+                messageElement.style.display = 'block';
+                showMessage();
+            }, 500);
+        }
+
+        // Создать сердечко на месте клика (SVG)
+        function createClickHeart() {
+            const heartDiv = document.createElement('div');
+            heartDiv.classList.add('floating-heart');
+            
+            const size = Math.random() * 50 + 30;
+            heartDiv.style.width = `${size}px`;
+            heartDiv.style.height = `${size}px`;
+            
+            // Яркий цвет для кликов
+            heartDiv.innerHTML = `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <path d="M50,30 C60,10 80,15 50,50 C20,15 40,10 50,30 Z" 
+                      fill="#ff1493"/>
+            </svg>`;
+            
+            // Позиция клика (приблизительная)
+            const x = 50 + (Math.random() * 30 - 15);
+            const y = 50 + (Math.random() * 30 - 15);
+            
+            heartDiv.style.left = `${x}vw`;
+            heartDiv.style.top = `${y}vh`;
+            
+            // Короткая анимация
+            heartDiv.style.animationDuration = '4s';
+            
+            heartContainer.appendChild(heartDiv);
+            
+            // Удаляем сердечко после анимации
+            setTimeout(() => {
+                heartDiv.remove();
+            }, 4000);
+        }
+
+        // Обработчик клика
+        function handleClick() {
+            // Первый клик - скрываем праздничное сообщение
+            if (isFirstClick) {
+                hideValentineMessage();
+                isFirstClick = false;
+                instructions.textContent = 'Продолжай нажимать! После 100 нажатий увидишь сюрприз!';
+                return;
+            }
+            
+            clickCount++;
+            clickCountElement.textContent = clickCount;
+            
+            // Показываем сообщение при каждом клике после первого
+            if (clickCount > 0) {
+                showMessage();
+            }
+            
+            // Проверяем, достигли ли 100 нажатий
+            if (clickCount === 100) {
+                // Показываем финальную анимацию
+                setTimeout(() => {
+                    finalAnimation.classList.add('show');
+                    instructions.textContent = 'B ❤️ D - Ты самая лучшая!';
+                }, 1000);
+                
+                // Удаляем обработчик клика
+                document.body.removeEventListener('click', handleClick);
+                document.body.removeEventListener('touchstart', handleClick);
+            }
+        }
+
+        // Инициализация
+        function init() {
+            // Создаем звезды
+            createStars();
+            
+            // Создаем плавающие сердца
+            createFloatingHearts();
+            
+            // Добавляем обработчики кликов
+            document.body.addEventListener('click', handleClick);
+            document.body.addEventListener('touchstart', handleClick);
+        }
+
+        // Запускаем при загрузке страницы
+        window.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>
